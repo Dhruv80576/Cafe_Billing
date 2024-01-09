@@ -1,6 +1,7 @@
 import 'package:cafeapp/Model/item_model.dart';
 import 'package:cafeapp/Pages/Additem.dart';
 import 'package:cafeapp/Pages/Details_bill.dart';
+import 'package:cafeapp/Pages/edit_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -30,13 +31,19 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xffC52031),
-        title: Text('Delhi cafe',
+        title: Text('Revibes Cafe',
             style:
                 GoogleFonts.dancingScript(color: Colors.white, fontSize: 25)),
         actions: [
-          IconButton(onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => Bill_Details(),));
-          }, icon: Icon(Icons.restaurant_menu))
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Bill_Details(),
+                    ));
+              },
+              icon: Icon(Icons.restaurant_menu))
         ],
       ),
       body: Container(
@@ -92,84 +99,102 @@ class _HomePageState extends State<HomePage> {
                                     ));
                               },
                               icon: Icon(Icons.add),
-                              alignment: Alignment.center)
-                          : Container(
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                  color: Colors.grey.shade300,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10))),
-                              margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
-                              padding: EdgeInsets.fromLTRB(10, 10, 15, 10),
-                              child: Row(
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Item Name',
-                                        style: GoogleFonts.quicksand(
-                                            color: Colors.grey.shade600,
-                                            fontSize: 12),
-                                      ),
-                                      Text(
-                                        '${list_item[index - 1].item_name}',
-                                        style: GoogleFonts.archivo(
-                                            color: Colors.black,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w500),
-                                        textAlign: TextAlign.start,
-                                      ),
-                                      Divider(
-                                        height: 10,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'Quantity:',
-                                            style: GoogleFonts.quicksand(
-                                                color: Colors.grey.shade600,
-                                                fontSize: 12),
-                                          ),
-                                          Text(
-                                            '${list_item[index - 1].quantity}',
-                                            style: GoogleFonts.archivo(
-                                                color: Colors.black,
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w500),
-                                            textAlign: TextAlign.start,
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                  Spacer(),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        'Price',
-                                        style: GoogleFonts.quicksand(
-                                            color: Colors.grey.shade600,
-                                            fontSize: 12),
-                                      ),
-                                      Text(
-                                        '₹${list_item[index - 1].price}',
-                                        style: GoogleFonts.archivo(
-                                            color: Colors.black,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w500),
-                                        textAlign: TextAlign.start,
-                                      ),
-                                    ],
-                                  )
-                                ],
+                            )
+                          : GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Edit_Item(
+                                          index - 1,
+                                          list_item
+                                              .elementAt(index - 1)
+                                              .item_name,
+                                          list_item.elementAt(index - 1).price,
+                                          list_item
+                                              .elementAt(index - 1)
+                                              .quantity),
+                                    ));
+                              },
+                              child: Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                    color: Colors.grey.shade300,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
+                                padding: EdgeInsets.fromLTRB(10, 10, 15, 10),
+                                child: Row(
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Item Name',
+                                          style: GoogleFonts.quicksand(
+                                              color: Colors.grey.shade600,
+                                              fontSize: 12),
+                                        ),
+                                        Text(
+                                          '${list_item[index - 1].item_name}',
+                                          style: GoogleFonts.archivo(
+                                              color: Colors.black,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w500),
+                                          textAlign: TextAlign.start,
+                                        ),
+                                        Divider(
+                                          height: 10,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'Quantity:',
+                                              style: GoogleFonts.quicksand(
+                                                  color: Colors.grey.shade600,
+                                                  fontSize: 12),
+                                            ),
+                                            Text(
+                                              '${list_item[index - 1].quantity}',
+                                              style: GoogleFonts.archivo(
+                                                  color: Colors.black,
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w500),
+                                              textAlign: TextAlign.start,
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                    Spacer(),
+                                    Column(
+                                      children: [
+                                        Text(
+                                          'Price',
+                                          style: GoogleFonts.quicksand(
+                                              color: Colors.grey.shade600,
+                                              fontSize: 12),
+                                        ),
+                                        Text(
+                                          '₹${list_item[index - 1].price}',
+                                          style: GoogleFonts.archivo(
+                                              color: Colors.black,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w500),
+                                          textAlign: TextAlign.start,
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
                               ),
                             ));
             },
             itemCount: list_item.length == 0 ? 3 : list_item.length + 2),
       ),
       floatingActionButton: FloatingActionButton.extended(
+          backgroundColor: Color(0xffC52031),
           onPressed: () {
             Navigator.push(
                 context,
@@ -177,7 +202,11 @@ class _HomePageState extends State<HomePage> {
                   builder: (context) => Generatebill(),
                 ));
           },
-          label: Text('Generate Bill')),
+          label: Text(
+            'Generate Bill',
+            style:
+                GoogleFonts.archivo(fontSize: 18, fontWeight: FontWeight.w300),
+          )),
     );
   }
 

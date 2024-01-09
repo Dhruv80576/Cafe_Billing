@@ -82,6 +82,16 @@ class _Bill_DetailsState extends State<Bill_Details> {
                           ),
                         ],
                       ),
+                      SizedBox(height: 20,),
+                      Text("Total Amount",style: GoogleFonts.quicksand(
+                          color: Colors.grey.shade800,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w300),),
+                      Text("₹${bill_list.elementAt(index).price}",style: GoogleFonts.quicksand(
+                          color: Colors.black,
+                          fontSize: 22,
+                          fontWeight: FontWeight.w700),)
+
                     ],
                   ),
                 ));

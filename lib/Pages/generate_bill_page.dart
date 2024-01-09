@@ -42,103 +42,132 @@ class _GeneratebillState extends State<Generatebill> {
         backgroundColor: Color(0xffC52031),
         title: Text('Generate Bill'),
       ),
-      body: Container(
-        margin: EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Bill Details',
-              style: GoogleFonts.archivo(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 24,
-                  color: Colors.black),
-            ),
-            Divider(
-              height: 30,
-            ),
-            Text(
-              'Receipent Name',
-            ),
-            TextField(
-              onChanged: (value) {
-                name = value;
-              },
-            ),
-            Divider(
-              height: 20,
-            ),
-            Text("Bill No."),
-            Container(
-                margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
-                child: Text('${(bill_no)}')),
-            Text("Select Items"),
-            Expanded(
-              child: ListView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return Container(
-                    padding: EdgeInsets.all(10),
-                    margin: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade200,
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Item name",
-                          style: GoogleFonts.quicksand(
-                              color: Colors.grey.shade600, fontSize: 12),
-                        ),
-                        Text(
-                          list_items[index].item_name,
-                          style: GoogleFonts.archivo(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "Price",
-                          style: GoogleFonts.quicksand(
-                              color: Colors.grey.shade600, fontSize: 12),
-                        ),
-                        Text(
-                          "₹${list_items[index].price}",
-                          style: GoogleFonts.archivo(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "Quantity available",
-                          style: GoogleFonts.quicksand(
-                              color: Colors.grey.shade600, fontSize: 12),
-                        ),
-                        Text(
-                          '${list_items[index].quantity}',
-                          style: GoogleFonts.archivo(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        Row(
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  if (item_selected.length != 0) {
-                                    var temp = update_selcted_item(1, index);
-                                    if (temp != 1) {
-                                      item_selected.add(BillItem(
+      body: SingleChildScrollView(
+        child: Container(
+          margin: EdgeInsets.all(10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Bill Details',
+                style: GoogleFonts.archivo(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 24,
+                    color: Colors.black),
+              ),
+              Divider(
+                height: 30,
+              ),
+              Container(
+                margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                child: Text(
+                  'Receipent Name',
+                  style: TextStyle(fontSize: 15),
+                ),
+              ),
+              TextField(
+                  onChanged: (value) {
+                    name = value;
+                  },
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 2,
+                            style: BorderStyle.solid,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Color(0xffC52031),
+                              width: 2,
+                              style: BorderStyle.solid),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      hintText: "Enter quantity in pcs.")),
+              Divider(
+                height: 20,
+              ),
+              Container(
+                  margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                  child: Text("Bill No.")),
+              Container(
+                  margin: EdgeInsets.fromLTRB(20, 5, 0, 10),
+                  child: Text(
+                    '#${(bill_no)}',
+                    style: GoogleFonts.archivo(
+                        fontSize: 20,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w700),
+                  )),
+              Container(
+                child: Text("Select Items"),
+                margin: EdgeInsets.all(10),
+              ),
+              Container(
+                height: 220,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      padding: EdgeInsets.all(10),
+                      margin: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Item name",
+                            style: GoogleFonts.quicksand(
+                                color: Colors.grey.shade600, fontSize: 12),
+                          ),
+                          Text(
+                            list_items[index].item_name,
+                            style: GoogleFonts.archivo(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            "Price",
+                            style: GoogleFonts.quicksand(
+                                color: Colors.grey.shade600, fontSize: 12),
+                          ),
+                          Text(
+                            "₹${list_items[index].price}",
+                            style: GoogleFonts.archivo(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            "Quantity available",
+                            style: GoogleFonts.quicksand(
+                                color: Colors.grey.shade600, fontSize: 12),
+                          ),
+                          Text(
+                            '${list_items[index].quantity}',
+                            style: GoogleFonts.archivo(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          Row(
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    if (list_items.elementAt(index).quantity !=
+                                        0) {
+                                      updateitem(Item(
                                           id: list_items.elementAt(index).id,
                                           item_name: list_items
                                               .elementAt(index)
@@ -146,59 +175,108 @@ class _GeneratebillState extends State<Generatebill> {
                                           price:
                                               list_items.elementAt(index).price,
                                           quantity: list_items
-                                              .elementAt(index)
-                                              .quantity,
-                                          served_quantity: 1));
-                                    }
-                                  } else {
-                                    item_selected.add(BillItem(
-                                        id: list_items.elementAt(index).id,
-                                        item_name: list_items
-                                            .elementAt(index)
-                                            .item_name,
-                                        price:
-                                            list_items.elementAt(index).price,
-                                        quantity: list_items
-                                            .elementAt(index)
-                                            .quantity,
-                                        served_quantity: 1));
-                                  }
-                                });
-                              },
-                              icon: Icon(Icons.add),
-                            ),
-                            checkquantity(list_items.elementAt(index).id) == 0
-                                ? Text("")
-                                : IconButton(
-                                    onPressed: () {
-                                      update_selcted_item(-1, index);
-                                    },
-                                    icon: Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                    ))
-                          ],
-                        ),
-                      ],
-                    ),
-                  );
-                },
-                itemCount: list_items.length,
+                                                  .elementAt(index)
+                                                  .quantity -
+                                              1));
+                                      if (item_selected.length != 0) {
+                                        var temp = update_selcted_item(1, index);
+                                        if (temp != 1) {
+                                          item_selected.add(BillItem(
+                                              id: list_items.elementAt(index).id,
+                                              item_name: list_items
+                                                  .elementAt(index)
+                                                  .item_name,
+                                              price: list_items
+                                                  .elementAt(index)
+                                                  .price,
+                                              quantity: list_items
+                                                  .elementAt(index)
+                                                  .quantity,
+                                              served_quantity: 1));
+                                        }
+                                      } else {
+                                        item_selected.add(BillItem(
+                                            id: list_items.elementAt(index).id,
+                                            item_name: list_items
+                                                .elementAt(index)
+                                                .item_name,
+                                            price:
+                                                list_items.elementAt(index).price,
+                                            quantity: list_items
+                                                .elementAt(index)
+                                                .quantity,
+                                            served_quantity: 1));
+                                      }
+                                    } else {}
+                                  });
+                                },
+                                icon: Icon(Icons.add),
+                              ),
+                              checkquantity(list_items.elementAt(index).id) == 0
+                                  ? Text("")
+                                  : IconButton(
+                                      onPressed: () {
+                                        if (checkquantity(
+                                                list_items.elementAt(index).id) ==
+                                            1) {
+                                          remove_item(index);
+                                        }
+                                        update_selcted_item(-1, index);
+                                        updateitem(Item(
+                                            id: list_items.elementAt(index).id,
+                                            item_name: list_items
+                                                .elementAt(index)
+                                                .item_name,
+                                            price:
+                                                list_items.elementAt(index).price,
+                                            quantity: list_items
+                                                    .elementAt(index)
+                                                    .quantity +
+                                                1));
+                                      },
+                                      icon: Icon(
+                                        Icons.delete,
+                                        color: Colors.red,
+                                      ))
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  itemCount: list_items.length,
+                ),
               ),
-            ),
-            Text('Item selected'),
-            Expanded(
-              child: ListView.builder(
+              Container(
+                child: Text('Item selected'),
+                margin: EdgeInsets.all(10),
+              ),
+              ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     return ListTile(
-                      title: Text(item_selected.elementAt(index).item_name),
+                      title: Text(
+                          item_selected.elementAt(index).item_name.toUpperCase(),
+                          style: GoogleFonts.archivo(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 18,
+                              color: Colors.black)),
                       trailing: Text(
-                          '${item_selected.elementAt(index).served_quantity} * ₹${item_selected.elementAt(index).price} = ₹${item_selected.elementAt(index).price * item_selected.elementAt(index).served_quantity}'),
+                        '${item_selected.elementAt(index).served_quantity} * ₹${item_selected.elementAt(index).price} = ₹${item_selected.elementAt(index).price * item_selected.elementAt(index).served_quantity}',
+                        style: GoogleFonts.archivo(
+                            fontSize: 20,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w800),
+                      ),
                     );
                   },
                   itemCount: item_selected.length),
-            ),
-          ],
+              SizedBox(
+                height: 40,
+              )
+            ],
+          ),
         ),
       ),
       bottomSheet: Container(
@@ -212,12 +290,31 @@ class _GeneratebillState extends State<Generatebill> {
               onPressed: () {
                 if (bill_no != 0 && name != "" && item_selected.length != 0) {
                   save_bill();
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => HomePage(),
-                      ),
-                      (route) => false);
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return Center(
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          child: CircularProgressIndicator(
+                            color: Color(0xffC52031),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                  Future.delayed(const Duration(seconds: 1), () {
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomePage(),
+                        ),
+                        (route) => false);
+                  });
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Enter all required fields")));
                 }
               },
               child: Text(
@@ -343,6 +440,7 @@ class _GeneratebillState extends State<Generatebill> {
       // Pass the Dog's id as a whereArg to prevent SQL injection.
       whereArgs: [item.id],
     );
+    get_data();
   }
 
   int checkquantity(int id) {
@@ -355,7 +453,7 @@ class _GeneratebillState extends State<Generatebill> {
   }
 
   int update_selcted_item(int quan, int index) {
-    int temp=0;
+    int temp = 0;
     setState(() {
       for (int i = 0; i < item_selected.length; i++) {
         if (list_items.elementAt(index).id == item_selected.elementAt(i).id) {
@@ -365,10 +463,18 @@ class _GeneratebillState extends State<Generatebill> {
               price: list_items.elementAt(index).price,
               quantity: list_items.elementAt(index).quantity,
               served_quantity: item_selected[i].served_quantity + quan);
-          temp=1;
+          temp = 1;
         }
       }
     });
     return temp;
+  }
+
+  void remove_item(int index) {
+    for (int i = 0; i < item_selected.length; i++) {
+      if (list_items.elementAt(index).id == item_selected.elementAt(i).id) {
+        item_selected.removeAt(i);
+      }
+    }
   }
 }
