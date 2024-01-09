@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cafeapp/Model/Bill_model.dart';
 import 'package:cafeapp/Model/bill_item.dart';
 import 'package:cafeapp/Model/item_model.dart';
@@ -7,7 +9,9 @@ import 'package:cafeapp/Services/retrieve_data.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 class Generatebill extends StatefulWidget {
   const Generatebill({Key? key}) : super(key: key);
@@ -371,42 +375,108 @@ class _GeneratebillState extends State<Generatebill> {
   Future<void> opendatabase_bill() async {
     WidgetsFlutterBinding.ensureInitialized();
 // Open the database and store the reference.
-    final db = openDatabase(
-      // Set the path to the database. Note: Using the `join` function from the
-      // `path` package is best practice to ensure the path is correctly
-      // constructed for each platform.
-      join(await getDatabasesPath(), 'bill_database.db'),
-      onCreate: (db, version) {
+    var db;
+    if (Platform.isWindows || Platform.isLinux) {
+      sqfliteFfiInit();
+      final databaseFactory = databaseFactoryFfi;
+      final appDocumentsDir = await getApplicationDocumentsDirectory();
+      final dbPath =
+      join(appDocumentsDir.path, "databases", "bill_database.db");
+      final winLinuxDB = await databaseFactory.openDatabase(
+        dbPath,
+        options: OpenDatabaseOptions(
+            version: 1,
+            onCreate: (db, version) {
+              // Run the CREATE TABLE statement on the database.
+              return db.execute(
+                'CREATE TABLE bills(id INTEGER PRIMARY KEY, name TEXT, price INTEGER)',
+              );
+            }),
+      );
+      db = winLinuxDB;
+    } else if (Platform.isAndroid || Platform.isIOS) {
+      final documentsDirectory = await getApplicationDocumentsDirectory();
+      final path = join(documentsDirectory.path, "bill_database.db");
+      final iOSAndroidDB =
+      await openDatabase(path, version: 1, onCreate: (db, version) {
         // Run the CREATE TABLE statement on the database.
         return db.execute(
           'CREATE TABLE bills(id INTEGER PRIMARY KEY, name TEXT, price INTEGER)',
         );
-      },
-      // Set the version. This executes the onCreate function and provides a
-      // path to perform database upgrades and downgrades.
-      version: 1,
-    );
+      });
+      db = iOSAndroidDB;
+    }
+    //
+    // final db = openDatabase(
+    //   // Set the path to the database. Note: Using the `join` function from the
+    //   // `path` package is best practice to ensure the path is correctly
+    //   // constructed for each platform.
+    //   join(await getDatabasesPath(), 'bill_database.db'),
+    //   onCreate: (db, version) {
+    //     // Run the CREATE TABLE statement on the database.
+    //     return db.execute(
+    //       'CREATE TABLE bills(id INTEGER PRIMARY KEY, name TEXT, price INTEGER)',
+    //     );
+    //   },
+    //   // Set the version. This executes the onCreate function and provides a
+    //   // path to perform database upgrades and downgrades.
+    //   version: 1,
+    // );
     database_bill = db;
   }
 
   Future<void> opendatabase_item() async {
     WidgetsFlutterBinding.ensureInitialized();
 // Open the database and store the reference.
-    final db = openDatabase(
-      // Set the path to the database. Note: Using the `join` function from the
-      // `path` package is best practice to ensure the path is correctly
-      // constructed for each platform.
-      join(await getDatabasesPath(), 'menu_database.db'),
-      onCreate: (db, version) {
-        // Run the CREATE TABLE statement on the database.
-        return db.execute(
-          'CREATE TABLE items(id INTEGER PRIMARY KEY, item_name TEXT, price INTEGER,quantity INTEGER)',
-        );
-      },
-      // Set the version. This executes the onCreate function and provides a
-      // path to perform database upgrades and downgrades.
-      version: 1,
-    );
+    var db;
+    if (Platform.isWindows || Platform.isLinux) {
+      sqfliteFfiInit();
+      final databaseFactory = databaseFactoryFfi;
+      final appDocumentsDir = await getApplicationDocumentsDirectory();
+      final dbPath = join(appDocumentsDir.path, "databases", "menu_database.db");
+      final winLinuxDB = await databaseFactory.openDatabase(
+        dbPath,
+        options: OpenDatabaseOptions(
+          version: 1,
+          onCreate:(db, version) {
+            // Run the CREATE TABLE statement on the database.
+            return db.execute(
+              'CREATE TABLE items(id INTEGER PRIMARY KEY, item_name TEXT, price INTEGER,quantity INTEGER)',
+            );
+          } ,
+        ),
+      );
+      db=winLinuxDB;
+    } else if (Platform.isAndroid || Platform.isIOS) {
+      final documentsDirectory = await getApplicationDocumentsDirectory();
+      final path = join(documentsDirectory.path, "menu_database.db");
+      final iOSAndroidDB = await openDatabase(
+        path,
+        version: 1,
+        onCreate: (db, version) {
+          // Run the CREATE TABLE statement on the database.
+          return db.execute(
+            'CREATE TABLE items(id INTEGER PRIMARY KEY, item_name TEXT, price INTEGER,quantity INTEGER)',
+          );
+        },
+      );
+      db=iOSAndroidDB;
+    }
+//     final db = openDatabase(
+//       // Set the path to the database. Note: Using the `join` function from the
+//       // `path` package is best practice to ensure the path is correctly
+//       // constructed for each platform.
+//       join(await getDatabasesPath(), 'menu_database.db'),
+//       onCreate: (db, version) {
+//         // Run the CREATE TABLE statement on the database.
+//         return db.execute(
+//           'CREATE TABLE items(id INTEGER PRIMARY KEY, item_name TEXT, price INTEGER,quantity INTEGER)',
+//         );
+//       },
+//       // Set the version. This executes the onCreate function and provides a
+//       // path to perform database upgrades and downgrades.
+//       version: 1,
+//     );
     database_item = db;
   }
 
