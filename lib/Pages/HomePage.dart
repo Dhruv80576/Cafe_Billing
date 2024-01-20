@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:cafeapp/Model/item_model.dart';
+import 'package:cafeapp/Pages/Addexpenditure.dart';
 import 'package:cafeapp/Pages/Additem.dart';
 import 'package:cafeapp/Pages/Details_bill.dart';
 import 'package:cafeapp/Pages/edit_detail.dart';
+import 'package:cafeapp/Pages/ledger_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -11,10 +13,10 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'generate_bill_page.dart';
+import 'expenditure_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
-
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -38,15 +40,80 @@ class _HomePageState extends State<HomePage> {
             style:
                 GoogleFonts.dancingScript(color: Colors.white, fontSize: 25)),
         actions: [
-          IconButton(
-              onPressed: () {
+          PopupMenuButton(
+            itemBuilder: (context) {
+              return [
+                PopupMenuItem(
+                  child: Row(
+                    children: [
+                      Icon(Icons.restaurant_menu, color: Colors.black),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text("Bill details")
+                    ],
+                  ),
+                  value: 1,
+                ),
+                PopupMenuItem(
+                  child: Row(
+                    children: [
+                      Icon(Icons.currency_exchange, color: Colors.black),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text("Expenditure")
+                    ],
+                  ),
+                  value: 2,
+                ),
+                PopupMenuItem(
+                  child: Row(
+                    children: [
+                      Icon(Icons.menu_book_sharp, color: Colors.black),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text("Ledger")
+                    ],
+                  ),
+                  value: 3,
+                ),
+                PopupMenuItem(
+                  child: Row(
+                    children: [
+                      Icon(Icons.money_off_sharp, color: Colors.black),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text("Add Expenditure")
+                    ],
+                  ),
+                  value: 4,
+                )
+              ];
+            },
+            onSelected: (value) {
+              if (value == 1) {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => Bill_Details(),
                     ));
-              },
-              icon: Icon(Icons.restaurant_menu))
+              } else if (value == 2) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Expenditure_Page()));
+              } else if (value == 3) {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Ledger_Page()));
+              } else if (value == 4) {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Add_expenditure()));
+              }
+            },
+          )
         ],
       ),
       body: Container(
@@ -221,20 +288,23 @@ class _HomePageState extends State<HomePage> {
       sqfliteFfiInit();
       final databaseFactory = databaseFactoryFfi;
       final appDocumentsDir = await getApplicationDocumentsDirectory();
-      final dbPath = join(appDocumentsDir.path, "databases", "menu_database.db");
+      final dbPath =
+          join(appDocumentsDir.path, "databases", "menu_database.db");
+
+
       final winLinuxDB = await databaseFactory.openDatabase(
         dbPath,
         options: OpenDatabaseOptions(
           version: 1,
-          onCreate:(db, version) {
+          onCreate: (db, version) {
             // Run the CREATE TABLE statement on the database.
             return db.execute(
               'CREATE TABLE items(id INTEGER PRIMARY KEY, item_name TEXT, price INTEGER,quantity INTEGER)',
             );
-          } ,
+          },
         ),
       );
-      db=winLinuxDB;
+      db = winLinuxDB;
     } else if (Platform.isAndroid || Platform.isIOS) {
       final documentsDirectory = await getApplicationDocumentsDirectory();
       final path = join(documentsDirectory.path, "menu_database.db");
@@ -248,10 +318,8 @@ class _HomePageState extends State<HomePage> {
           );
         },
       );
-      db=iOSAndroidDB;
+      db = iOSAndroidDB;
     }
-
-
 
     // final database = openDatabase(
     //   // Set the path to the database. Note: Using the `join` function from the

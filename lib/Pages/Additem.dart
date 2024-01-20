@@ -238,7 +238,7 @@ class _AddItemState extends State<AddItem> {
       insertBill(item, winLinuxDB);
     } else if (Platform.isAndroid || Platform.isIOS) {
       final documentsDirectory = await getApplicationDocumentsDirectory();
-      final path = join(documentsDirectory.path, "data.db");
+      final path = join(documentsDirectory.path, "menu_database.db");
       final iOSAndroidDB = await openDatabase(
           path,
           version: 1,
@@ -249,7 +249,6 @@ class _AddItemState extends State<AddItem> {
             );
           }
       );
-
       insertBill(item,iOSAndroidDB);
     }
     throw Exception("Unsupported platform"
