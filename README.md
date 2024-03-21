@@ -1,16 +1,3 @@
 # cafeapp
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![1](https://github.com/Dhruv80576/Cafe_Billing/assets/119156720/abbf300a-be12-434e-b1d2-197212ce07af)
+![2](https://github.com/Dhruv80576/Cafe_Billing/assets/119156720/95fd9b18-af45-4e66-87d6-a2742b471bb5)
